@@ -57,3 +57,16 @@ def test_removing_an_absent_item_raises():
 
 
 # TODO: add one test of your own. What behaviour is not covered above?
+def test_removing_item_updates_total_and_lines_correctly():
+    cart = Cart()
+
+    cart.add_item(GYOZA, 2)  # $16.00
+    cart.add_item(RAMEN, 1)  # $16.50
+    assert len(cart.lines) == 2
+    assert cart.total() == 32.50
+    
+    cart.remove_item(1)
+    
+    assert len(cart.lines) == 1
+    assert cart.lines[0]["item_id"] == 2
+    assert cart.total() == 16.00
