@@ -22,24 +22,40 @@ class Cart:
 
     def add_item(self, item: dict, qty: int = 1) -> None:
         # TODO
-        raise NotImplementedError
+        for line in self.lines:
+            if line["item_id"] == item["id"]:
+                line["qty"] += qty
+                return
+                
+        new_line = {"item_id": item["id"], "name": item["name"], "price": item["price"], "qty": qty}
+        self.lines.append(new_line)
 
     def remove_item(self, item_id: int) -> None:
         # TODO
-        raise NotImplementedError
+        for line in self.lines:
+            if line["item_id"] == item_id:
+                self.lines.remove(line)
+                return
 
     def clear(self) -> None:
         # TODO
-        raise NotImplementedError
+        self.lines = []
 
     def total(self) -> float:
         # TODO - round ONCE, at the end
-        raise NotImplementedError
+        total = 0.0
+        for line in self.lines:
+            total += line["price"] * line["qty"]
+
+        return round(total, 2)
 
     def __repr__(self) -> str:
         # TODO
-        raise NotImplementedError
+        total_items = 0
+        for line in self.lines:
+            total_items += line["qty"]
 
+        return (f"<Cart {total_items} items, ${self.total():.2f}>")
 
 if __name__ == "__main__":
     menu = load_menu()
